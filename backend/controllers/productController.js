@@ -1,6 +1,7 @@
 const Product = require('../models/productModel');
 const ErrorHandler = require('../utils/errorhandler');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
+const ApiFeatures = require('../utils/apiFeatures');
 
 // -------- create a new product --------
 exports.createProduct = catchAsyncErrors(async (req, res) => {
@@ -13,10 +14,18 @@ exports.createProduct = catchAsyncErrors(async (req, res) => {
 
 // -------- get all products --------
 exports.getAllProducts = catchAsyncErrors(async (req, res) => {
-    const products = await Product.find()
+    const resultPerPage = 5
+    const apiFeature = new ApiFeatures(Product, req.query)
+        .search()
+        .filter()
+        .paginate(resultPerPage)
+    const productCount = await Product.countDocuments();
+    // const products = await Product.find()
+    const products = await apiFeature.query;
     res.status(200).json({
         success: true,
-        products
+        products,
+        productCount
     })
 })
 
