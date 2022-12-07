@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    background: whitesmoke;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.gdText {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
